@@ -1,0 +1,10 @@
+Package: PipeHelpR
+Title: Shorthand helpers for pipelined development
+Version: 1.1.1.0001
+Authors@R: 
+    person("Wesley", "Fletcher", , "weslfletch@gmail.com", role = c("aut", "cre"))
+Description: Defines various helper functions for facilitating simpler, more readable, and memory efficient pipelining (as it pertains to R's memory management and garbage collection).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
