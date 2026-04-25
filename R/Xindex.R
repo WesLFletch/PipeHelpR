@@ -54,6 +54,7 @@ index = function(object, idx=NA, neg=F){
 #' @return A copy of `object` indexed accordingly.
 #' @export
 lindex = function(object, idx){
+  if (length(idx)==0) return(object)
   if ("data.frame"%in%class(object)) return(object[[idx]])
   if (is.list(idx)) return(lindex(object[[idx[[1]]]], utils::tail(idx,-1)))
   return(lindex(object[[idx[1]]], utils::tail(idx,-1)))
