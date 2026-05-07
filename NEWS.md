@@ -35,6 +35,7 @@
 - Added new function `arrapply()` that allows for making shorthand nested calls to `base::sapply()` at arbitrarily high dimensions.
 - `setDimnames()` now uses `...` arguments for the dimension names.
 - `do()` had its logic for running one-parameter and parameterless functions redone. Now, the number of arguments `f` has is used instead of checking if `x` is `NULL`. This should be more transparent to users.
+- Added `roxygen2`-style documentation to all exported functions.
 
 ### Minor improvements:
 - `whichInv()` now accepts and automatically casts arguments to integer values.

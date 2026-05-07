@@ -121,7 +121,7 @@ testmatrix %>%
 # > D 16.23256 23.86626
 ```
 
-Recursive list indexing is possible with `lindex()`.
+Multi-level list indexing is possible with `lindex()`.
 
 ```R
 testlist = list(
