@@ -34,7 +34,7 @@
 ### Major changes:
 - Added new function `arrapply()` that allows for making shorthand nested calls to `base::sapply()` at arbitrarily high dimensions.
 - `setDimnames()` now uses `...` arguments for the dimension names.
-- `do()` has its functionality split between `do()` and `do0()`. The former takes an object `x` and a funcion `f` and returns `f(x)` while the latter takes only a no-argument function `f` and returns `f()`. This way, functionality is more explicit and `NULL` values of `x` can be meaningfully passed into `do()`, in case that is of interest to users.
+- `do()` had its logic for running one-parameter and parameterless functions redone. Now, the number of arguments `f` has is used instead of checking if `x` is `NULL`. This should be more transparent to users.
 
 ### Minor improvements:
 - `whichInv()` now accepts and automatically casts arguments to integer values.

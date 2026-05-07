@@ -14,13 +14,13 @@ In short, this package defines various helper functions for facilitating simpler
 
 Installation can be done using the `devtools` package by running
 
-```{R}
+```R
 devtools::install_github("WesLFletch/PipeHelpR")
 ```
 
 Then to use the package in an active R session, run
 
-```{R}
+```R
 library("PipeHelpR")
 ```
 
@@ -30,7 +30,7 @@ and you're good to go!
 
 The main functionality of this package is illustrated through the below examples.
 
-```{R}
+```R
 # setup
 library("tidyverse")
 library("PipeHelpR")
@@ -42,7 +42,8 @@ testvector = rnorm(100, mean=10, sd=3)
 ```
 
 Using `do()` is a more readable alternative to piping through a bare anonymous function.
-```{R}
+
+```R
 # standardize the vector to mean 0 variance 1
 testvector %>%
   # substract off the arithmetic mean
@@ -63,7 +64,7 @@ testvector %>%
 
 `setRownames()`, `setColnames()`, and `setDimnames()` are higher dimension analogs to the native `setNames()`.
 
-```{R}
+```R
 # make a matrix out of the vector, and add row and column names
 testmatrix = testvector %>%
   # make into 10x10 matrix
@@ -82,7 +83,7 @@ head(testmatrix, c(6,6))
 # make an array out of the vector, and add names for its dimensions
 testarray = testvector %>%
   array(dim=c(4,5,5)) %>%
-  setDimnames(list(LETTERS[1:4], LETTERS[5:9], LETTERS[10:14]))
+  setDimnames(LETTERS[1:4], LETTERS[5:9], LETTERS[10:14])
 head(testarray, c(2,2,2))
 # > , , J
 # >          E        F
@@ -97,7 +98,7 @@ head(testarray, c(2,2,2))
 
 With these new objects, we can index them flexibly with `index()` after doing operations on them.
 
-```{R}
+```R
 testmatrix %>%
   `+`(10) %>%
   index(list(c("A","C"), NA)) # NA is used for an empty index ("get all columns")
@@ -108,7 +109,7 @@ testmatrix %>%
 
 Negative indexing can be done with characters!
 
-```{R}
+```R
 testmatrix %>%
   `*`(2) %>%
   # negative indexing for the first dimension, normal indexing for the second
@@ -122,7 +123,7 @@ testmatrix %>%
 
 Recursive list indexing is possible with `lindex()`.
 
-```{R}
+```R
 testlist = list(
   a = list(c = 1, d = 2),
   b = list(e = 3, f = 4)
@@ -138,7 +139,7 @@ testlist %>% lindex(list(2, "e"))
 
 `stripAttr()` can remove attributes from objects.
 
-```{R}
+```R
 # recover the original vector from testarray
 testarray %>% stripAttr(c("dim", "dimnames")) %>% head()
 # > [1]  8.318573  9.309468 14.676125 10.211525 10.387863 15.145195
@@ -146,24 +147,50 @@ testarray %>% stripAttr(c("dim", "dimnames")) %>% head()
 
 `whichInv()` makes a binary vector from an integer vector, the functional inverse of the native `which()`.
 
-```{R}
-seq(1L, 10L, 2L) %>%
-  whichInv(10L)
+```R
+seq(1, 10, 2) %>%
+  whichInv(10)
 # > [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE
+```
+
+`arrapply()` is a generalization of `sapply()` to higher dimensions. When given multiple iterables, it creates a matrix or higher-order array.
+
+```R
+# with one iterable argument, it functions identically to sapply()
+arrapply(1:10, f=\(x)2*x)
+# > [1]  2  4  6  8 10 12 14 16 18 20
+#
+# with multiple iterable arguments, it creates a matrix or higher-order array (much like nested `sapply()` calls)
+arrapply(LETTERS[1:4], letters[1:3], letters[1:2], f=\(x,y,z)paste0(x,y,z))
+# > , , a
+# > 
+# >   a     b     c    
+# > A "Aaa" "Aba" "Aca"
+# > B "Baa" "Bba" "Bca"
+# > C "Caa" "Cba" "Cca"
+# > D "Daa" "Dba" "Dca"
+# > 
+# > , , b
+# > 
+# >   a     b     c    
+# > A "Aab" "Abb" "Acb"
+# > B "Bab" "Bbb" "Bcb"
+# > C "Cab" "Cbb" "Ccb"
+# > D "Dab" "Dbb" "Dcb"
 ```
 
 ## Helpful Tips
 
 1. This package defines the function `do()`. For users of the phenomenal `tidyverse` family of R packages (which is remarkably useful in conjunction with `PipeHelpR`!), this will conflict with the `dplyr` package's function `do()`. However, since `dplyr`'s function is now superceded by other functions, we use the same function name. If using `dplyr` or the `tidyverse` in conjunction with this package, I would advise loading their packages before `PipeHelpR` so that `PipeHelpR`'s definition will mask `dplyr`'s.
 
-```{R}
+```R
 library("tidyverse")
 library("PipeHelpR")
 ```
 
 2. Using `do()` as an isolated code environment is highly recommended for messy data pipelines with many intermediate objects, as well as "checkpointing" intermediate object representations in a pipeline. Two examples below illustrate these specific use cases.
 
-```{R}
+```R
 library("tidyverse")
 library("PipeHelpR")
 
@@ -203,7 +230,7 @@ do(f=\(){
 
 3. Although the shorthand helpers can prevent the storage of unneeded intermediate forms in the main environment, we can modify object states using `do()`. An example below illustrates generating a random symmetric matrix without storing any intermediate objects in the main environment.
 
-```{R}
+```R
 library("tidyverse")
 library("PipeHelpR")
 
