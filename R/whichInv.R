@@ -4,8 +4,8 @@
 #' @return A logical vector of length `len` with all `idx` indices set to `TRUE` and the rest to `FALSE.`
 #' @export
 whichInv = function(idx, len){
-  if (!is.integer(idx)) stop("idx must be of type integer")
-  if (!is.integer(len)) stop("len must be of type integer")
+  if (!is.numeric(idx)) stop("idx must be numeric")
+  if (!is.numeric(len)) stop("len must be numeric")
   if (length(len)!=1) stop("len must be of length 1")
   out = rep(F,len)
   out[idx] = T
