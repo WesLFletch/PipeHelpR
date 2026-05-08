@@ -2,15 +2,27 @@
 
 
 
-### 2026, April 22nd
+### 2026, May 8th:
 
-> Version 1.1.1.0001 released in public repository, first release.
+> Version 1.1.2.0002 released in public repository.
 
-### Bug fixes:
-- `lindex()` now functions with tibbles for columnwise indexing.
+### Minor improvements:
+- `setDimnames()` now allows either a list of character vectors or separate vectors under the `...` argument. This way, dimension names can easily be copied from one object to another.
+
+---
+
+### 2026, May 7th:
+
+> Version 1.1.2.0001 released in public repository.
 
 ### Major changes:
-- `stripAttr()` now allows for specific attributes to be removed by passing attribute names as an argument. This behavior is forced to encourage mindful use by end users.
+- Added new function `arrapply()` that allows for making shorthand nested calls to `base::sapply()` at arbitrarily high dimensions.
+- `setDimnames()` now uses `...` arguments for the dimension names.
+- `do()` had its logic for running one-parameter and parameterless functions redone. Now, the number of arguments `f` has is used instead of checking if `x` is `NULL`. This should be more transparent to users.
+- Added `roxygen2`-style documentation to all exported functions.
+
+### Minor improvements:
+- `whichInv()` now accepts and automatically casts arguments to integer values.
 
 ---
 
@@ -27,15 +39,12 @@
 
 ---
 
-### 2026, May 7th:
+### 2026, April 22nd
 
-> Version 1.1.2.0001 released in public repository.
+> Version 1.1.1.0001 released in public repository, first release.
+
+### Bug fixes:
+- `lindex()` now functions with tibbles for columnwise indexing.
 
 ### Major changes:
-- Added new function `arrapply()` that allows for making shorthand nested calls to `base::sapply()` at arbitrarily high dimensions.
-- `setDimnames()` now uses `...` arguments for the dimension names.
-- `do()` had its logic for running one-parameter and parameterless functions redone. Now, the number of arguments `f` has is used instead of checking if `x` is `NULL`. This should be more transparent to users.
-- Added `roxygen2`-style documentation to all exported functions.
-
-### Minor improvements:
-- `whichInv()` now accepts and automatically casts arguments to integer values.
+- `stripAttr()` now allows for specific attributes to be removed by passing attribute names as an argument. This behavior is forced to encourage mindful use by end users.

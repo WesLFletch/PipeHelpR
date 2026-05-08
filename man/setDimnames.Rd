@@ -9,7 +9,7 @@ setDimnames(object, ...)
 \arguments{
 \item{object}{The object whose dimension names will be modified.}
 
-\item{...}{Character vectors containing the new dimension names for \code{object}.}
+\item{...}{Either a single list of character vectors or multiple separate character vectors containing the new dimension names for \code{object}.}
 }
 \value{
 A copy of \code{object} with its dimension changed to the elements of \code{...}.

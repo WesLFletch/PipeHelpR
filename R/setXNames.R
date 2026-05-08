@@ -77,7 +77,7 @@ setColnames = function(object, nm){
 #' A convenience function to modify the dimension names of the passed in object.
 #'
 #' @param object The object whose dimension names will be modified.
-#' @param ... Character vectors containing the new dimension names for `object`.
+#' @param ... Either a single list of character vectors or multiple separate character vectors containing the new dimension names for `object`.
 #' @return A copy of `object` with its dimension changed to the elements of `...`.
 #'
 #' @export
@@ -106,6 +106,7 @@ setColnames = function(object, nm){
 #' # > A 6.796529 8.124882
 #' # > B 9.346075 4.939920
 setDimnames = function(object, ...){
-  dimnames(object) = list(...)
+  nm = list(...)
+  dimnames(object) = if (length(nm)==1) nm[[1]] else nm
   return(object)
 }
