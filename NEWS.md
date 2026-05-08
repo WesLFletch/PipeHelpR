@@ -9,7 +9,7 @@
 ### Minor improvements:
 - `setDimnames()` now allows either a list of character vectors or separate vectors under the `...` argument. This way, dimension names can easily be copied from one object to another.
 
---
+---
 
 ### 2026, May 7th:
 
@@ -24,7 +24,7 @@
 ### Minor improvements:
 - `whichInv()` now accepts and automatically casts arguments to integer values.
 
---
+---
 
 ### 2026, April 25th:
 
@@ -37,7 +37,7 @@
 ### Bug fixes:
 - `lindex()` now performs recursive list indexing properly. Users can use a vector or list for recursive list indexing.
 
---
+---
 
 ### 2026, April 22nd
 
