@@ -48,5 +48,7 @@ arrapply = function(..., f){
     # recursive step,
     return(sapply(a[[1]], \(i)g(a[-1], append(b, list(i))), simplify="array"))
   }
-  return(aperm(g(args, list()), nargs:1))
+  out_noperm = g(args, list())
+  ndim = length(dim(out_noperm))
+  return(aperm(out_noperm, if (ndim==nargs) nargs:1 else c(ndim:(ndim-nargs+1), 1:(ndim-nargs))))
 }
