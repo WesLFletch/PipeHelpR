@@ -2,6 +2,15 @@
 
 
 
+### 2026, May 23rd:
+
+> Version 1.1.2.0003 released in public repository.
+
+### Major improvements:
+- `arrapply()` now allows the output of `f` to be of arbitrary dimensions while still producing a predictably structured output.
+
+---
+
 ### 2026, May 8th:
 
 > Version 1.1.2.0002 released in public repository.
