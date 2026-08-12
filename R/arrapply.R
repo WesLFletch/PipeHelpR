@@ -1,9 +1,23 @@
 #' Perform nested `base::sapply()` calls to create a matrix or higher-order array.
 #'
-#' Takes several iterables and applies a function using every permutation of elements from the iterables as its arguments, returning a vector/matrix/higher dimensional array of the outputs. The shorthand equivalent of making nested `base::sapply()` calls.
+#' Takes several iterables and applies a function using every the set-theoretic cross
+#' product of elements from the iterables as its arguments, returning a
+#' vector/matrix/higher dimensional array of the outputs. It is the shorthand equivalent
+#' of making nested `base::sapply()` calls.
 #'
-#' @param ... Iterable objects that all permutations of elements will be applied over.
-#' @param f Function to apply over all permutations of the elements of the `...` arguments.
+#' This function is designed to have an intuitive and predictable output dimension
+#' structure. The first dimensions always correspond to the iterables in `...`, and the
+#' last dimensions are the dimensions of the returned values of `f()`. If the output is a
+#' scalar, then no extra dimensions are added. To guarantee the intuitive output
+#' structure, all outputs of `f()` are required to all share common dimensions.
+#'
+#' Passing the output of an `arrapply()` call into `as.data.frame.table()` is a useful
+#' way to tabulate the output into a nicer form.
+#'
+#' @param ... Iterable objects that all combinations of elements will be applied over.
+#' @param f Function to apply over all combinations of the elements of the `...`
+#' arguments. The number of arguments must be equal to the number of iterables provided in
+#' `...`, and the output of `f()` must always have the same output length/dimensions.
 #' @return A vector, matrix, or higher dimensional array.
 #'
 #' @export
@@ -40,15 +54,23 @@ arrapply = function(..., f){
     stop("number of iterables must be equal to number of function arguments")
   if (nargs==0)
     stop("at least 1 iterable required")
-  # if using one iterable, simply call sapply()
-  if (nargs==1) return(sapply(args[[1]], \(i)f(i)))
-  # use recursive sapply() calls for more than one iterable
+  # output dimension validation (the length/dimensions of f(...) must be unchanging for all arguments)
+  get_dim = function(x) if (is.array(x)) dim(x) else length(x)
+  exp_outdim = get_dim(do.call(f, lapply(args, \(x)x[[1]])))
+  # make recursive sapply() calls
   g = function(a, b){
-    if (length(a)==0) return(do.call(f, b)) # base case, call f() using b as arguments
-    # recursive step,
+    if (length(a)==0){ # base case, call f() using b as arguments
+      # verify output dimensions
+      out = do.call(f, b)
+      if (!isTRUE(all.equal(get_dim(out), exp_outdim)))
+        stop(paste0("dimensions of f(", paste(b, collapse=", "), ") are not consistent with other return dimensions from f(...)"))
+      return(out)
+    }
+    # recursive step, collect arguments one at a time to pass down to base case in nested sapply() calls
     return(sapply(a[[1]], \(i)g(a[-1], append(b, list(i))), simplify="array"))
   }
-  out_noperm = g(args, list())
+  out_noperm = g(args, list()) # raw output of the recursion, needs dimension permutation for QOL
   ndim = length(dim(out_noperm))
-  return(aperm(out_noperm, if (ndim==nargs) nargs:1 else c(ndim:(ndim-nargs+1), 1:(ndim-nargs))))
+  noutdim = ndim-nargs
+  return(aperm(out_noperm, c((nargs:1)+noutdim, (1:noutdim)[0:noutdim])))
 }

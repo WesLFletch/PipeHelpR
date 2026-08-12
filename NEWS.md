@@ -2,12 +2,22 @@
 
 
 
+### 2026, August 12th:
+
+> Version 1.1.2.0004 released in public repository.
+
+### Major improvements:
+- `arrapply()` now allows the output of `f` to be of arbitrary dimensions while still producing a predictably structured output.
+- `arrapply()` performs compute-time validation of the outputs of `f` to ensure they are all of common dimensions.
+
+---
+
 ### 2026, May 23rd:
 
 > Version 1.1.2.0003 released in public repository.
 
 ### Major improvements:
-- `arrapply()` now allows the output of `f` to be of arbitrary dimensions while still producing a predictably structured output.
+- `arrapply()` now allows the output of `f` to be non-scalar.
 
 ---
 

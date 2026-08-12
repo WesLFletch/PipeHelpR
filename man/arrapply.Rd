@@ -7,15 +7,30 @@
 arrapply(..., f)
 }
 \arguments{
-\item{...}{Iterable objects that all permutations of elements will be applied over.}
+\item{...}{Iterable objects that all combinations of elements will be applied over.}
 
-\item{f}{Function to apply over all permutations of the elements of the \code{...} arguments.}
+\item{f}{Function to apply over all combinations of the elements of the \code{...}
+arguments. The number of arguments must be equal to the number of iterables provided in
+\code{...}, and the output of \code{f()} must always have the same output length/dimensions.}
 }
 \value{
 A vector, matrix, or higher dimensional array.
 }
 \description{
-Takes several iterables and applies a function using every permutation of elements from the iterables as its arguments, returning a vector/matrix/higher dimensional array of the outputs. The shorthand equivalent of making nested \code{base::sapply()} calls.
+Takes several iterables and applies a function using every the set-theoretic cross
+product of elements from the iterables as its arguments, returning a
+vector/matrix/higher dimensional array of the outputs. It is the shorthand equivalent
+of making nested \code{base::sapply()} calls.
+}
+\details{
+This function is designed to have an intuitive and predictable output dimension
+structure. The first dimensions always correspond to the iterables in \code{...}, and the
+last dimensions are the dimensions of the returned values of \code{f()}. If the output is a
+scalar, then no extra dimensions are added. To guarantee the intuitive output
+structure, all outputs of \code{f()} are required to all share common dimensions.
+
+Passing the output of an \code{arrapply()} call into \code{as.data.frame.table()} is a useful
+way to tabulate the output into a nicer form.
 }
 \examples{
 library("tidyverse")
